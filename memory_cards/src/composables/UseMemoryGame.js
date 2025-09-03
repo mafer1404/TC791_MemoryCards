@@ -16,7 +16,21 @@ export function useMemoryGame(cardsData) {
   const showVideoModal = ref(false);
   const currentVideo = ref(null);
 
+  const revealAllStart = ref(false);
+  const revealTimerStart = ref(0);
+  const revealIntervalStart = ref(null);
+  const totalRevealTime = 5;
+
   const shuffledDeck = computed(() => deck.value);
+
+  function playClockSound() {
+    try {
+      const sound = new Audio('/sounds/ClockSound.mp3');
+      sound.play();
+    } catch (e) {
+      //
+    }
+  }
 
   function getRandomPairs(cardsData, pairCount = 6) {
     const shuffled = [...cardsData].sort(() => Math.random() - 0.5);
@@ -36,9 +50,19 @@ export function useMemoryGame(cardsData) {
     deck.value = shuffle([...selectedPairs, ...selectedPairs]);
     flippedIndexes.value = deck.value.map((_, i) => i);
 
-    setTimeout(() => {
-      flippedIndexes.value = [];
-    }, 5000);
+    revealAllStart.value = true;
+    revealTimerStart.value = totalRevealTime;
+    playClockSound();
+
+    clearInterval(revealIntervalStart.value);
+    revealIntervalStart.value = setInterval(() => {
+      revealTimerStart.value -= 1;
+      if (revealTimerStart.value <= 0) {
+        revealAllStart.value = false;
+        flippedIndexes.value = [];
+        clearInterval(revealIntervalStart.value);
+      }
+    }, 1000);
   }
 
   function flipCard(index) {
@@ -62,7 +86,6 @@ function checkForMatch() {
       flippedIndexes.value = [];
       lockBoard.value = false;
 
-      // Mostrar el modal después de que las cartas desaparecen
       currentVideo.value = deck.value[firstIndex].video;
       showVideoModal.value = true;
 
@@ -70,7 +93,7 @@ function checkForMatch() {
         showWinMessage.value = true;
         showGameBoard.value = false;
       }
-    }, 3000);
+    }, 5000);
   } else {
     setTimeout(() => {
       flippedIndexes.value = [];
@@ -94,6 +117,9 @@ function checkForMatch() {
     shuffledDeck,
     showVideoModal,
     currentVideo,
+    revealAllStart,
+    revealTimerStart,
+    totalRevealTime,
     startGame,
     flipCard,
     restartGame,
