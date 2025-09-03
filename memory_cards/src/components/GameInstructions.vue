@@ -1,7 +1,8 @@
 <template>
   <div class="container my-5 d-flex justify-content-center">
     <div class="card p-4 text-center w-100">
-      <h2 class="mb-3" style="color: #219ebc;">Instructions</h2>
+      <h1 class="mb-3" style="color: #99d98c;">Memory game: Green Friends!</h1>
+      <h2 class="mb-3" style="color: #a6c48a;">Instructions</h2>
       <ol class="text-start mx-auto" style="max-width: 600px;">
         <li>
           Find all the matching pairs of cards that represent elements of the environment, natural resources, values, and community services.
@@ -19,7 +20,7 @@
           When all pairs have been found, a <span class="badge bg-success">Play Again</span> button will appear to restart the game.
         </li>
       </ol>
-      <h3 class="mt-4" style="color: #219ebc;">Good luck!</h3>
+      <h3 class="mt-4" style="color: #a6c48a;">Good luck!</h3>
       <button class="btn btn-success mt-3" @click="handleStart">Start game</button>
     </div>
   </div>
@@ -43,3 +44,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  ol li {
+    font-size: 1.3em;
+  }
+</style >

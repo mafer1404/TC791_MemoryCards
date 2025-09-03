@@ -7,3 +7,9 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+  p {
+    font-size: 1.3em;
+  }
+</style >
